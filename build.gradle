@@ -21,12 +21,6 @@ repositories {
     jcenter()
 }
 
-repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
-}
-
 dependencies {
        compile 'com.google.code.gson:gson:2.8.6'
 }

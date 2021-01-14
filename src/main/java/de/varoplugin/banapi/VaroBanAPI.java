@@ -1,7 +1,5 @@
 package de.varoplugin.banapi;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
@@ -11,35 +9,35 @@ public final class VaroBanAPI {
 
 	// Die banAPI fragt alle 30 sek beim Server an und der Server schickt entweder alle changes oder alle daten (mal sehen)
 
-	private static final String URL = "https://varoplugin.de/VaroBanAPI";
+	private final String URL = "https://varoplugin.de/varobanapi/";
 
 	private final String token;
-
-	private final RequestHandler requestHandler;
-	private final ExecutorService threadPool;
-
+	private Consumer<Throwable> exceptionHandler;
 	private final Gson gson;
 
-	public VaroBanAPI() {
-		this(null);
-	}
-
-	public VaroBanAPI(String token) {
+	public VaroBanAPI(String token, Consumer<Throwable> exceptionHandler) {
 		this.token = token;
-
-		this.requestHandler = new RequestHandler(URL);
-		this.threadPool = Executors.newCachedThreadPool();
+		this.exceptionHandler = exceptionHandler;
 		this.gson = new GsonBuilder().create();
 	}
-
-	protected <T> void sendRequestAsync(Class<T> clazz, Consumer<T> consumer, int code, String postData) {
-		threadPool.execute(() -> {
-			consumer.accept(this.sendRequest(clazz, code, postData));
-		});
+	
+	public VaroBanAPI(Consumer<Throwable> exceptionHandler) {
+		this(null, exceptionHandler);
 	}
-
-	protected <T> T sendRequest(Class<T> clazz, int code, String postData) {
-		String result = this.requestHandler.sendRequest(this.token, code, postData);
-		return result == null ? null : this.gson.fromJson(result, clazz);
+	
+	public String getURL() {
+		return URL;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+	
+	public Consumer<Throwable> getExceptionHandler() {
+		return exceptionHandler;
+	}
+	
+	public Gson getGson() {
+		return gson;
 	}
 }
