@@ -3,18 +3,9 @@ package de.varoplugin.banapi.user;
 import com.google.gson.annotations.SerializedName;
 
 public class Ban {
-
-	public static final short TYPE_MINECRAFT = 0;
-	public static final short TYPE_DISCORD = 1;
 	
-	@SerializedName("userid")
-	private long userid;
-	
-	@SerializedName("id")
+	@SerializedName("banID")
 	private long id;
-	
-	@SerializedName("type")
-	private short type;
 	
 	@SerializedName("timestamp")
 	private long timestamp;
@@ -22,16 +13,59 @@ public class Ban {
 	@SerializedName("duration")
 	private long duration;
 	
+	@SerializedName("operator")
+	private String operator;
+	
+	@SerializedName("operatorName")
+	private String operatorName;
+	
 	@SerializedName("reason")
 	private String reason;
-	
-	@SerializedName("proofs")
-	private String[] proofs;
 	
 	@SerializedName("notes")
 	private String notes;
 	
-	@SerializedName("bannedby")
-	private String operator;
+	@SerializedName("proofes")
+	private String[] proofes;
 	
+	public Ban() {}
+	
+	public Ban(long duration, String operator, String operatorName, String reason) {
+		this.duration = duration;
+		this.operator = operator;
+		this.operatorName = operatorName;
+		this.reason = reason;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public String getOperator() {
+		return operator;
+	}
+	
+	public String getOperatorName() {
+		return operatorName;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public String[] getProofes() {
+		return proofes;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
 }

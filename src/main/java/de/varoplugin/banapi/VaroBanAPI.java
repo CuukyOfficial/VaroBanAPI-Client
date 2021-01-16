@@ -5,35 +5,41 @@ import java.util.function.Consumer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import de.varoplugin.banapi.request.RequestFailedException;
+
 public final class VaroBanAPI {
+	
+	private static final String DEFAULT_URL = "https://varoplugin.de/varobanapi/";
 
-	// Die banAPI fragt alle 30 sek beim Server an und der Server schickt entweder alle changes oder alle daten (mal sehen)
-
-	private final String URL = "https://varoplugin.de/varobanapi/";
-
+	private final String url;
 	private final String token;
-	private Consumer<Throwable> exceptionHandler;
+	private final Consumer<RequestFailedException> exceptionHandler;
 	private final Gson gson;
 
-	public VaroBanAPI(String token, Consumer<Throwable> exceptionHandler) {
+	public VaroBanAPI(String url, String token, Consumer<RequestFailedException> exceptionHandler) {
+		this.url = url == null ? DEFAULT_URL : url;
 		this.token = token;
 		this.exceptionHandler = exceptionHandler;
-		this.gson = new GsonBuilder().create();
+		this.gson = new GsonBuilder().setPrettyPrinting().create();
 	}
 	
-	public VaroBanAPI(Consumer<Throwable> exceptionHandler) {
-		this(null, exceptionHandler);
+	public VaroBanAPI(Consumer<RequestFailedException> exceptionHandler) {
+		this(null, null, exceptionHandler);
+	}
+	
+	public VaroBanAPI() {
+		this(null, null, null);
 	}
 	
 	public String getURL() {
-		return URL;
+		return url;
 	}
 	
 	public String getToken() {
 		return token;
 	}
 	
-	public Consumer<Throwable> getExceptionHandler() {
+	public Consumer<RequestFailedException> getExceptionHandler() {
 		return exceptionHandler;
 	}
 	
