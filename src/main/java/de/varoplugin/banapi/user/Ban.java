@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Ban {
 	
+	public static final int DURATION_UNBAN = 0;
+	public static final int DURATION_PERMANENT = -1;
+	
 	@SerializedName("banID")
 	private long id;
 	
