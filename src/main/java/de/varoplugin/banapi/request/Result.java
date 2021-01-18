@@ -9,4 +9,12 @@ public class Result {
 	
 	@SerializedName("error")
 	private String error;
+	
+	public boolean isSuccess() {
+		return success;
+	}
+	
+	public String getError() {
+		return error;
+	}
 }
