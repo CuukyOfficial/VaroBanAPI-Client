@@ -16,7 +16,7 @@ public class PlayerBan {
 	@SerializedName("ban")
 	private Ban ban;
 	
-	public PlayerBan(BanType type, String id, String name, Ban ban) {
+	public PlayerBan(AccountType type, String id, String name, Ban ban) {
 		this.type = type.getId();
 		this.id = id;
 		this.name = name;

@@ -1,12 +1,12 @@
 package de.varoplugin.banapi.user;
 
-public enum BanType {
+public enum AccountType {
 
 	MINERAFT(0), DISCORD(1);
 	
 	private int id;
 	
-	private BanType(int id) {
+	private AccountType(int id) {
 		this.id = id;
 	}
 	
