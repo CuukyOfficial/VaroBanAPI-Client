@@ -6,7 +6,7 @@ import de.varoplugin.banapi.VaroBanAPI;
 import de.varoplugin.banapi.user.User;
 import de.varoplugin.banapi.user.UsersDataWrapper;
 
-public class ActiveBansRequest extends SupplierRequest<User[]> {
+public class ActiveBansRequest extends ConsumerRequest<User[]> {
 	
 	ActiveBansRequest(VaroBanAPI api, String url) {
 		super(api, url, User[].class);

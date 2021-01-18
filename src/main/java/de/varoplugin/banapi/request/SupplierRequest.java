@@ -1,28 +1,25 @@
 package de.varoplugin.banapi.request;
 
-import java.util.concurrent.Future;
-import java.util.function.Consumer;
-
 import de.varoplugin.banapi.VaroBanAPI;
 
-abstract class SupplierRequest<T> extends AbstractRequest {
-
-	private Class<T> responseClass;
+abstract class SupplierRequest extends AbstractRequest {
 	
-	SupplierRequest(VaroBanAPI api, String url, Class<T> responseClass) {
+	private String payload;
+	
+	SupplierRequest(VaroBanAPI api, String url, String payload) {
 		super(api, url);
-		this.responseClass = responseClass;
+		this.payload = payload;
+	}
+
+	public void send() throws RequestFailedException {
+		send(this.payload);
 	}
 	
-	public T send() throws RequestFailedException {
-		return send(this.responseClass);
+	public void sendAsync() {
+		sendAsync(this.payload);
 	}
 	
-	public Future<T> sendAsync() {
-		return sendAsync(this.responseClass, null);
-	}
-	
-	public void sendAsync(Consumer<T> callback) {
-		sendAsync(this.responseClass, callback, null);
+	public void sendAsync(Runnable callback) {
+		sendAsync(this.payload, callback);
 	}
 }
