@@ -9,7 +9,7 @@ import de.varoplugin.banapi.request.RequestFailedException;
 
 public final class VaroBanAPI {
 	
-	private static final String DEFAULT_URL = "https://varoplugin.de/varobanapi/";
+	private static final String DEFAULT_URL = "https://varoplugin.de/banapi/";
 
 	private final String url;
 	private final String token;
