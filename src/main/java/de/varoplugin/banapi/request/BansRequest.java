@@ -2,9 +2,9 @@ package de.varoplugin.banapi.request;
 
 import java.util.function.Consumer;
 
+import de.varoplugin.banapi.UserArray;
+import de.varoplugin.banapi.UsersDataWrapper;
 import de.varoplugin.banapi.VaroBanAPI;
-import de.varoplugin.banapi.user.UserArray;
-import de.varoplugin.banapi.user.UsersDataWrapper;
 
 public class BansRequest extends ConsumerRequest<UserArray> {
 

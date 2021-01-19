@@ -1,7 +1,7 @@
 package de.varoplugin.banapi.request;
 
+import de.varoplugin.banapi.PlayerBan;
 import de.varoplugin.banapi.VaroBanAPI;
-import de.varoplugin.banapi.user.PlayerBan;
 
 public class BanPlayerRequest extends SupplierRequest {
 

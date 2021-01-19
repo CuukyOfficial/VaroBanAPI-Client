@@ -1,4 +1,4 @@
-package de.varoplugin.banapi.user;
+package de.varoplugin.banapi;
 
 public enum AccountType {
 

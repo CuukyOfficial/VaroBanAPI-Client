@@ -1,7 +1,7 @@
 package de.varoplugin.banapi.request;
 
+import de.varoplugin.banapi.AccountLink;
 import de.varoplugin.banapi.VaroBanAPI;
-import de.varoplugin.banapi.user.AccountLink;
 
 public class LinkAccountsRequest extends CompleteRequest<Result> {
 
