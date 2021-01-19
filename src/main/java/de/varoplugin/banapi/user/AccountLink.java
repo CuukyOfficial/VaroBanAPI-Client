@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class AccountLink {
 
-	@SerializedName("oldType")
+	@SerializedName("type")
 	private int oldType;
 	
 	@SerializedName("newType")
 	private int newType;
 	
-	@SerializedName("oldId")
+	@SerializedName("id")
 	private String oldId;
 	
 	@SerializedName("newId")
