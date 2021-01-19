@@ -16,6 +16,9 @@ public class Ban {
 	@SerializedName("duration")
 	private long duration;
 	
+	@SerializedName("active")
+	private boolean active;
+	
 	@SerializedName("operator")
 	private String operator;
 	
@@ -28,8 +31,8 @@ public class Ban {
 	@SerializedName("notes")
 	private String notes;
 	
-	@SerializedName("proofes")
-	private String[] proofes;
+	@SerializedName("proofs")
+	private String[] proofs;
 	
 	public Ban() {}
 	
@@ -51,6 +54,10 @@ public class Ban {
 	public long getDuration() {
 		return duration;
 	}
+	
+	public boolean isActive() {
+		return active;
+	}
 
 	public String getOperator() {
 		return operator;
@@ -64,8 +71,8 @@ public class Ban {
 		return reason;
 	}
 
-	public String[] getProofes() {
-		return proofes;
+	public String[] getProofs() {
+		return proofs;
 	}
 
 	public String getNotes() {

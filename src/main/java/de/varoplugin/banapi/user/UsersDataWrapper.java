@@ -6,41 +6,55 @@ import java.util.UUID;
 
 public class UsersDataWrapper {
 
-	private final User[] users;
+	private final Map<UUID, User> minecraftAccounts;
 	private final Map<UUID, Ban> minecraftBans;
 	private final Map<Long, Ban> discordBans;
-	
-	public UsersDataWrapper(User... users) {
-		this.users = users;
+
+	public UsersDataWrapper(UserArray users) {
+		this.minecraftAccounts = new HashMap<>();
 		this.minecraftBans = new HashMap<>();
 		this.discordBans = new HashMap<>();
-		
-		initData();
+
+		initData(users);
 	}
-	
-	private void initData() {
-		for(User user : this.users) {
-			if(user.getMinecraftUuids() != null && user.getMinecraftBans() != null && user.getMinecraftBans().length != 0)
-				for(String uuid : user.getMinecraftUuids())
-					this.minecraftBans.put(UUID.fromString(uuid), user.getMinecraftBans()[0]);
-			if(user.getDiscordIds() != null && user.getDiscordBans() != null && user.getDiscordBans().length != 0)
+
+	protected void initData(UserArray array) {
+		for(User user : array.getUsers()) {
+			Ban ban;
+			if(user.getMinecraftUuids() != null) {
+				ban = user.getActiveMinecraftBan();
+				for(String uuidString : user.getMinecraftUuids()) {
+					UUID uuid = UUID.fromString(uuidString);
+					this.minecraftAccounts.put(uuid, user);
+					
+					if(ban != null)
+						this.minecraftBans.put(uuid, ban);
+				}
+			}
+			
+			if(user.getDiscordIds() != null && (ban = user.getActiveDiscordBan()) != null) {
 				for(Long id : user.getDiscordIds())
-					this.discordBans.put(id, user.getDiscordBans()[0]);
+					this.discordBans.put(id, ban);
+			}
 		}
 	}
 	
+	public User getUser(UUID uuid) {
+		return this.minecraftAccounts.get(uuid);
+	}
+
 	public Ban getCurrentMinecraftBan(UUID uuid) {
 		return this.minecraftBans.get(uuid);
 	}
-	
+
 	public boolean isMinecraftBanned(UUID uuid) {
 		return this.minecraftBans.containsKey(uuid);
 	}
-	
+
 	public Ban getCurrentDiscordBan(Long id) {
 		return this.discordBans.get(id);
 	}
-	
+
 	public boolean isDiscordBanned(Long id) {
 		return this.discordBans.containsKey(id);
 	}
