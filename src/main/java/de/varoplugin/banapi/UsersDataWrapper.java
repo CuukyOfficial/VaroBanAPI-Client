@@ -7,11 +7,13 @@ import java.util.UUID;
 public class UsersDataWrapper {
 
 	private final Map<UUID, User> minecraftAccounts;
+	private final Map<Long, User> discordAccounts;
 	private final Map<UUID, Ban> minecraftBans;
 	private final Map<Long, Ban> discordBans;
 
 	public UsersDataWrapper(UserArray users) {
 		this.minecraftAccounts = new HashMap<>();
+		this.discordAccounts = new HashMap<>();
 		this.minecraftBans = new HashMap<>();
 		this.discordBans = new HashMap<>();
 
@@ -32,15 +34,24 @@ public class UsersDataWrapper {
 				}
 			}
 			
-			if(user.getDiscordIds() != null && (ban = user.getActiveDiscordBan()) != null) {
-				for(Long id : user.getDiscordIds())
-					this.discordBans.put(id, ban);
+			if(user.getDiscordIds() != null) {
+				ban = user.getActiveDiscordBan();
+				for(long id : user.getDiscordIds()) {
+					this.discordAccounts.put(id, user);
+					
+					if(ban != null)
+						this.discordBans.put(id, ban);
+				}
 			}
 		}
 	}
 	
 	public User getUser(UUID uuid) {
 		return this.minecraftAccounts.get(uuid);
+	}
+	
+	public User getUser(Long id) {
+		return this.discordAccounts.get(id);
 	}
 
 	public Ban getCurrentMinecraftBan(UUID uuid) {
