@@ -1,6 +1,5 @@
 package de.varoplugin.banapi;
 
-public interface BanListener {
+abstract interface BanListener {
 
-	public void onBanUpdate(User user, Ban ban, AccountType type);
 }

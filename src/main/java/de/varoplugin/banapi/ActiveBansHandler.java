@@ -21,7 +21,7 @@ public class ActiveBansHandler {
 	private final BanApi banAPI;
 	private final Mode mode;
 	private final Consumer<Throwable> exceptionHandler;
-	private final List<BanListener> listeners = new CopyOnWriteArrayList<>();
+	private final List<BanChangeListener> changeListeners = new CopyOnWriteArrayList<>();
 	private final List<BanDataListener> dataListeners = new CopyOnWriteArrayList<>();
 	private final int refreshInterval;
 	private Timestamp timestamp;
@@ -51,7 +51,7 @@ public class ActiveBansHandler {
 			for(BanDataListener listener : this.dataListeners)
 				listener.onBanDataUpdated(data);
 
-			for(BanListener listener : this.listeners)
+			for(BanChangeListener listener : this.changeListeners)
 				try {
 					for(User user : data.getRaw().getUsers()) {
 						if(user.isBansChanged()) {
@@ -76,11 +76,10 @@ public class ActiveBansHandler {
 	}
 
 	public void registerListener(BanListener listener) {
-		this.listeners.add(listener);
-	}
-
-	public void registerListener(BanDataListener listener) {
-		this.dataListeners.add(listener);
+		if(listener instanceof BanChangeListener)
+			this.changeListeners.add((BanChangeListener) listener);
+		if(listener instanceof BanDataListener)
+			this.dataListeners.add((BanDataListener) listener);
 	}
 
 	public UsersDataWrapper getCurrentData() {
