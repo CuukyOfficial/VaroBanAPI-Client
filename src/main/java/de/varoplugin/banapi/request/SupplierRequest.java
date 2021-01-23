@@ -1,12 +1,12 @@
 package de.varoplugin.banapi.request;
 
-import de.varoplugin.banapi.VaroBanAPI;
+import de.varoplugin.banapi.BanAPI;
 
 abstract class SupplierRequest extends AbstractRequest {
 	
 	private String payload;
 	
-	SupplierRequest(VaroBanAPI api, String url, String payload) {
+	SupplierRequest(BanAPI api, String url, String payload) {
 		super(api, url);
 		this.payload = payload;
 	}

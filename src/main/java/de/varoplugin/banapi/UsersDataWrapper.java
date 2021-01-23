@@ -1,55 +1,66 @@
 package de.varoplugin.banapi;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UsersDataWrapper {
 
-	private final Map<UUID, User> minecraftAccounts;
-	private final Map<Long, User> discordAccounts;
-	private final Map<UUID, Ban> minecraftBans;
-	private final Map<Long, Ban> discordBans;
+	@SerializedName("minecraftAccounts")
+	private Map<UUID, User> minecraftAccounts;
+
+	@SerializedName("discordAccounts")
+	private Map<Long, User> discordAccounts;
+
+	@SerializedName("minecraftBans")
+	private Map<UUID, Ban> minecraftBans;
+
+	@SerializedName("discordBans")
+	private Map<Long, Ban> discordBans;
+
+	public UsersDataWrapper() {}
 
 	public UsersDataWrapper(UserArray users) {
-		this.minecraftAccounts = new HashMap<>();
-		this.discordAccounts = new HashMap<>();
-		this.minecraftBans = new HashMap<>();
-		this.discordBans = new HashMap<>();
+		this.minecraftAccounts = new LinkedHashMap<>();
+		this.discordAccounts = new LinkedHashMap<>();
+		this.minecraftBans = new LinkedHashMap<>();
+		this.discordBans = new LinkedHashMap<>();
 
 		initData(users);
 	}
 
 	protected void initData(UserArray array) {
-		for(User user : array.getUsers()) {
+		for (User user : array.getUsers()) {
 			Ban ban;
-			if(user.getMinecraftUuids() != null) {
+			if (user.getMinecraftUuids() != null) {
 				ban = user.getActiveMinecraftBan();
-				for(String uuidString : user.getMinecraftUuids()) {
+				for (String uuidString : user.getMinecraftUuids()) {
 					UUID uuid = UUID.fromString(uuidString);
 					this.minecraftAccounts.put(uuid, user);
-					
-					if(ban != null)
+
+					if (ban != null)
 						this.minecraftBans.put(uuid, ban);
 				}
 			}
-			
-			if(user.getDiscordIds() != null) {
+
+			if (user.getDiscordIds() != null) {
 				ban = user.getActiveDiscordBan();
-				for(long id : user.getDiscordIds()) {
+				for (long id : user.getDiscordIds()) {
 					this.discordAccounts.put(id, user);
-					
-					if(ban != null)
+
+					if (ban != null)
 						this.discordBans.put(id, ban);
 				}
 			}
 		}
 	}
-	
+
 	public User getUser(UUID uuid) {
 		return this.minecraftAccounts.get(uuid);
 	}
-	
+
 	public User getUser(Long id) {
 		return this.discordAccounts.get(id);
 	}
@@ -68,5 +79,13 @@ public class UsersDataWrapper {
 
 	public boolean isDiscordBanned(Long id) {
 		return this.discordBans.containsKey(id);
+	}
+	
+	public Map<UUID, Ban> getMinecraftBans() {
+		return minecraftBans;
+	}
+	
+	public Map<Long, Ban> getDiscordBans() {
+		return discordBans;
 	}
 }

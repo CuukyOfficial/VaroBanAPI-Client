@@ -11,16 +11,16 @@ import java.util.function.Consumer;
 
 import com.google.gson.JsonSyntaxException;
 
-import de.varoplugin.banapi.VaroBanAPI;
+import de.varoplugin.banapi.BanAPI;
 
 public abstract class AbstractRequest implements Request {
 
 	private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-	private VaroBanAPI api;
+	private BanAPI api;
 	private String url;
 
-	public AbstractRequest(VaroBanAPI api, String url) {
+	public AbstractRequest(BanAPI api, String url) {
 		this.api = api;
 		this.url = url;
 	}
@@ -136,7 +136,7 @@ public abstract class AbstractRequest implements Request {
 		}
 	}
 
-	protected VaroBanAPI getApi() {
+	protected BanAPI getApi() {
 		return api;
 	}
 

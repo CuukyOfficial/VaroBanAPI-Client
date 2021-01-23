@@ -3,14 +3,14 @@ package de.varoplugin.banapi.request;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
-import de.varoplugin.banapi.VaroBanAPI;
+import de.varoplugin.banapi.BanAPI;
 
 abstract class CompleteRequest<T> extends AbstractRequest {
 
 	private String payload;
 	private Class<T> responseClass;
 	
-	CompleteRequest(VaroBanAPI api, String url, String payload, Class<T> responseClass) {
+	CompleteRequest(BanAPI api, String url, String payload, Class<T> responseClass) {
 		super(api, url);
 		this.payload = payload;
 		this.responseClass = responseClass;
