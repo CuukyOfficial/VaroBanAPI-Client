@@ -2,9 +2,9 @@ package de.varoplugin.banapi.event;
 
 import de.varoplugin.banapi.BanAPI;
 import de.varoplugin.banapi.request.ActiveBansRequest;
+import de.varoplugin.banapi.request.ActiveDiscordBansRequest;
+import de.varoplugin.banapi.request.ActiveMinecraftBansRequest;
 import de.varoplugin.banapi.request.BansRequest;
-import de.varoplugin.banapi.request.DiscordBansRequest;
-import de.varoplugin.banapi.request.MinecraftBansRequest;
 
 public enum APIEventMode {
 
@@ -15,9 +15,9 @@ public enum APIEventMode {
 	public BansRequest getRequest(BanAPI api) {
 		switch (this) {
 		case MINECRAFT_ONLY:
-			return new MinecraftBansRequest(api);
+			return new ActiveMinecraftBansRequest(api);
 		case DISCORD_ONLY:
-			return new DiscordBansRequest(api);
+			return new ActiveDiscordBansRequest(api);
 		default:
 			return new ActiveBansRequest(api);
 		}
