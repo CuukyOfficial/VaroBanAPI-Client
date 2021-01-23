@@ -7,7 +7,6 @@ import java.util.Map;
 import de.varoplugin.banapi.AccountType;
 import de.varoplugin.banapi.BanAPI;
 import de.varoplugin.banapi.UsersDataWrapper;
-import de.varoplugin.banapi.request.ActiveBansRequest;
 import de.varoplugin.banapi.request.RequestFailedException;
 
 public class BanEventManager {
@@ -16,9 +15,11 @@ public class BanEventManager {
 	private final List<BanAPIListener> listener = new ArrayList<>();
 	private UsersDataWrapper compare;
 	private int fetchInterval = 60;
+	private APIEventMode mode;
 
 	public BanEventManager(BanAPI banAPI) {
 		this.banAPI = banAPI;
+		this.mode = APIEventMode.ALL;
 	}
 
 	private void startFetching() {
@@ -37,7 +38,7 @@ public class BanEventManager {
 
 	private UsersDataWrapper fetchNewData() {
 		try {
-			UsersDataWrapper result = new ActiveBansRequest(this.banAPI).sendAndGetWrapper();
+			UsersDataWrapper result = this.mode.getRequest(this.banAPI).sendAndGetWrapper();
 			this.listener.forEach(listener -> listener.onDataReceive(result));
 			return result;
 		} catch (RequestFailedException e) {
@@ -83,5 +84,9 @@ public class BanEventManager {
 
 	public void setFetchInterval(int fetchInterval) {
 		this.fetchInterval = fetchInterval;
+	}
+
+	public void setMode(APIEventMode mode) {
+		this.mode = mode;
 	}
 }
