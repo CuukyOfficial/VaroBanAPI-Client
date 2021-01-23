@@ -48,13 +48,13 @@ public class BanEventManager {
 		return null;
 	}
 
-	private <T> void executeMap(Map<T, CompareResult> map, AccountType type) {
-		for (T id : map.keySet()) {
-			CompareResult compare = map.get(id);
+	private <T> void executeMap(Map<UserBanPair<T>, CompareResult> map, AccountType type) {
+		for (UserBanPair<T> banPair : map.keySet()) {
+			CompareResult compare = map.get(banPair);
 			if (compare == CompareResult.ADDED)
-				this.listener.forEach(listener -> listener.onAccountBan(type, String.valueOf(id)));
+				this.listener.forEach(listener -> listener.onAccountBan(String.valueOf(banPair.getUserID()), banPair.getBan(), type));
 			else if (compare == CompareResult.REMOVED)
-				this.listener.forEach(listener -> listener.onAccountUnban(type, String.valueOf(id)));
+				this.listener.forEach(listener -> listener.onAccountUnban(String.valueOf(banPair.getUserID()), banPair.getBan(), type));
 		}
 	}
 
@@ -74,7 +74,6 @@ public class BanEventManager {
 		ComparisonWrapper result = new ComparisonWrapper(this.compare, data);
 		this.executeMap(result.getDiscordResult(), AccountType.DISCORD);
 		this.executeMap(result.getMinecraftResult(), AccountType.MINERAFT);
-
 		this.compare = data;
 	}
 
