@@ -15,13 +15,14 @@ import de.varoplugin.banapi.request.BansRequest;
 import de.varoplugin.banapi.request.RequestFailedException;
 
 public class ActiveBansHandler {
-	
+
 	private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
 	private final BanApi banAPI;
 	private final Mode mode;
 	private final Consumer<Throwable> exceptionHandler;
 	private final List<BanListener> listeners = new CopyOnWriteArrayList<>();
+	private final List<BanDataListener> dataListeners = new CopyOnWriteArrayList<>();
 	private final int refreshInterval;
 	private Timestamp timestamp;
 	private UsersDataWrapper currentData;
@@ -33,7 +34,7 @@ public class ActiveBansHandler {
 		this.refreshInterval = refreshInterval;
 		this.timestamp = timestamp;
 	}
-	
+
 	public ActiveBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler) {
 		this(banAPI, mode, exceptionHandler, 5 * 60, null);
 	}
@@ -44,36 +45,28 @@ public class ActiveBansHandler {
 
 	private void refreshData() {
 		try {
-			UsersDataWrapper users = null;
-			if(this.timestamp != null)
-				users = this.mode.getRequest(this.banAPI, this.timestamp).sendAndGetWrapper();
-			
-			if(this.currentData == null) {
-				this.currentData = this.mode.getRequest(this.banAPI, null).sendAndGetWrapper();
-				this.timestamp = new Timestamp(currentData.getRaw().getTimestamp());
-			}
-			
-			if(users != null) {
-				this.currentData.merge(users);
-				this.timestamp = new Timestamp(users.getRaw().getTimestamp());
-				
-				for(BanListener listener : this.listeners)
-					try {
-						listener.onBanDataUpdated(users);
-						
-						for(User user : users.getRaw().getUsers()) {
+			UsersDataWrapper data = this.currentData = this.mode.getRequest(this.banAPI, this.timestamp).sendAndGetWrapper();
+			this.timestamp = new Timestamp(data.getRaw().getTimestamp());
+
+			for(BanDataListener listener : this.dataListeners)
+				listener.onBanDataUpdated(data);
+
+			for(BanListener listener : this.listeners)
+				try {
+					for(User user : data.getRaw().getUsers()) {
+						if(user.isBansChanged()) {
 							Ban ban;
 							if((ban = user.getLatestMinecraftBan()) != null)
 								listener.onBanUpdate(user, ban, AccountType.MINECRAFT);
 							if((ban = user.getLatestDiscordBan()) != null)
 								listener.onBanUpdate(user, ban, AccountType.DISCORD);
 						}
-							
-					}catch(Throwable t) {
-						if(this.exceptionHandler != null)
-							exceptionHandler.accept(t);
 					}
-			}
+
+				}catch(Throwable t) {
+					if(this.exceptionHandler != null)
+						exceptionHandler.accept(t);
+				}
 		} catch (RequestFailedException e) {
 			if (banAPI.getExceptionHandler() != null)
 				banAPI.getExceptionHandler().accept(e);
@@ -81,23 +74,27 @@ public class ActiveBansHandler {
 			schedule();
 		}
 	}
-	
+
 	public void registerListener(BanListener listener) {
 		this.listeners.add(listener);
 	}
-	
+
+	public void registerListener(BanDataListener listener) {
+		this.dataListeners.add(listener);
+	}
+
 	public UsersDataWrapper getCurrentData() {
 		return currentData;
 	}
-	
+
 	public static enum Mode {
-		
+
 		ALL(ActiveBansRequest::new),
 		DISCORD_ONLY(ActiveDiscordBansRequest::new),
 		MINECRAFT_ONLY(ActiveMinecraftBansRequest::new);
-		
+
 		private BiFunction<BanApi, Timestamp, BansRequest> request;
-		
+
 		private Mode(BiFunction<BanApi, Timestamp, BansRequest> request) {
 			this.request = request;
 		}

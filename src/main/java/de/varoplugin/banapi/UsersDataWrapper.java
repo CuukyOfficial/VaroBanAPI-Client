@@ -2,7 +2,6 @@ package de.varoplugin.banapi;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 public class UsersDataWrapper {
@@ -34,13 +33,6 @@ public class UsersDataWrapper {
 					this.discordAccounts.put(id, user);
 				}
 		}
-	}
-	
-	void merge(UsersDataWrapper data) {
-		for(Entry<UUID, User> user : data.minecraftAccounts.entrySet())
-			this.minecraftAccounts.putIfAbsent(user.getKey(), user.getValue());
-		for(Entry<Long, User> user : data.discordAccounts.entrySet())
-			this.discordAccounts.putIfAbsent(user.getKey(), user.getValue());
 	}
 
 	public UserArray getRaw() {

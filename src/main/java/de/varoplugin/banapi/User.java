@@ -13,6 +13,9 @@ public class User {
 	@SerializedName("name")
 	private String name;
 	
+	@SerializedName("changed")
+	private boolean bansChanged;
+	
 	@SerializedName("minecraftBans")
 	private Ban[] minecraftBans;
 	
@@ -37,6 +40,10 @@ public class User {
 
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isBansChanged() {
+		return bansChanged;
 	}
 
 	public Ban[] getMinecraftBans() {
