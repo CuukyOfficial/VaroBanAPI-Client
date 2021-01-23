@@ -47,7 +47,7 @@ public class User {
 		return this.minecraftBans != null && this.minecraftBans.length != 0 && this.minecraftBans[0].isActive();
 	}
 	
-	public Ban getActiveMinecraftBan() {
+	public Ban getLatestMinecraftBan() {
 		return hasActiveMinecraftBan() ? this.minecraftBans[0] : null;
 	}
 	
@@ -59,7 +59,7 @@ public class User {
 		return this.discordBans != null && this.discordBans.length != 0 && this.discordBans[0].isActive();
 	}
 	
-	public Ban getActiveDiscordBan() {
+	public Ban getLatestDiscordBan() {
 		return hasActiveDiscordBan() ? this.discordBans[0] : null;
 	}
 

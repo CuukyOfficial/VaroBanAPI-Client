@@ -1,19 +1,19 @@
 package de.varoplugin.banapi.request;
 
 import de.varoplugin.banapi.Timestamp;
-import de.varoplugin.banapi.BanAPI;
+import de.varoplugin.banapi.BanApi;
 
 public class ActiveMinecraftBansRequest extends BansRequest {
 	
-	public ActiveMinecraftBansRequest(BanAPI api, Timestamp timestamp) {
+	public ActiveMinecraftBansRequest(BanApi api, Timestamp timestamp) {
 		super(api, "bans/active", timestamp);
 	}
 	
-	public ActiveMinecraftBansRequest(BanAPI api, long timestamp) {
+	public ActiveMinecraftBansRequest(BanApi api, long timestamp) {
 		super(api, "bans/active", timestamp);
 	}
 	
-	public ActiveMinecraftBansRequest(BanAPI api) {
+	public ActiveMinecraftBansRequest(BanApi api) {
 		super(api, "mc/active");
 	}
 }

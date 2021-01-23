@@ -3,13 +3,13 @@ package de.varoplugin.banapi.request;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
-import de.varoplugin.banapi.BanAPI;
+import de.varoplugin.banapi.BanApi;
 
 abstract class ConsumerRequest<T> extends AbstractRequest {
 
 	private Class<T> responseClass;
 	
-	ConsumerRequest(BanAPI api, String url, Class<T> responseClass) {
+	ConsumerRequest(BanApi api, String url, Class<T> responseClass) {
 		super(api, url);
 		this.responseClass = responseClass;
 	}

@@ -1,19 +1,19 @@
 package de.varoplugin.banapi.request;
 
 import de.varoplugin.banapi.Timestamp;
-import de.varoplugin.banapi.BanAPI;
+import de.varoplugin.banapi.BanApi;
 
 public class DiscordBansRequest extends BansRequest {
 	
-	public DiscordBansRequest(BanAPI api, Timestamp timestamp) {
+	public DiscordBansRequest(BanApi api, Timestamp timestamp) {
 		super(api, "bans/active", timestamp);
 	}
 	
-	public DiscordBansRequest(BanAPI api, long timestamp) {
+	public DiscordBansRequest(BanApi api, long timestamp) {
 		super(api, "bans/active", timestamp);
 	}
 	
-	public DiscordBansRequest(BanAPI api) {
+	public DiscordBansRequest(BanApi api) {
 		super(api, "dc");
 	}
 }

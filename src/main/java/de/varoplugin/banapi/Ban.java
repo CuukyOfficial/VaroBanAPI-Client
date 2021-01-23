@@ -46,7 +46,7 @@ public class Ban {
 	public long getId() {
 		return id;
 	}
-
+	
 	public long getTimestamp() {
 		return timestamp;
 	}
