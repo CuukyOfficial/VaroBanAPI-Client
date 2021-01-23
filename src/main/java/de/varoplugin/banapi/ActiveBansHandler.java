@@ -38,8 +38,12 @@ public class ActiveBansHandler {
 	public ActiveBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler) {
 		this(banAPI, mode, exceptionHandler, 5 * 60, null);
 	}
+	
+	public void start() {
+		EXECUTOR.execute(this::refreshData);
+	}
 
-	public void schedule() {
+	private void schedule() {
 		EXECUTOR.schedule(this::refreshData, this.refreshInterval, TimeUnit.SECONDS);
 	}
 
