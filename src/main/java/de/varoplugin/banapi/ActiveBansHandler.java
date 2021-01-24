@@ -38,7 +38,7 @@ public class ActiveBansHandler {
 	public ActiveBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler) {
 		this(banAPI, mode, exceptionHandler, 5 * 60, null);
 	}
-	
+
 	public void start() {
 		EXECUTOR.execute(this::refreshData);
 	}
@@ -53,30 +53,38 @@ public class ActiveBansHandler {
 			this.timestamp = new Timestamp(data.getRaw().getTimestamp());
 
 			for(BanDataListener listener : this.dataListeners)
-				listener.onBanDataUpdated(data);
-
-			for(BanChangeListener listener : this.changeListeners)
 				try {
-					for(User user : data.getRaw().getUsers()) {
-						Ban ban;
-						if(user.isMinecraftBansChanged())
-							if((ban = user.getLatestMinecraftBan()) != null)
-								listener.onBanUpdate(user, ban, AccountType.MINECRAFT);
-						if(user.isDiscordBansChanged())
-							if((ban = user.getLatestDiscordBan()) != null)
-								listener.onBanUpdate(user, ban, AccountType.DISCORD);
-					}
-
+					listener.onBanDataUpdated(data);
 				}catch(Throwable t) {
 					if(this.exceptionHandler != null)
 						exceptionHandler.accept(t);
 				}
+
+			for(User user : data.getRaw().getUsers()) {
+				Ban ban;
+				if(user.isMinecraftBansChanged())
+					if((ban = user.getLatestMinecraftBan()) != null)
+						runChangeListeners(user, ban, AccountType.MINECRAFT);
+				if(user.isDiscordBansChanged())
+					if((ban = user.getLatestDiscordBan()) != null)
+						runChangeListeners(user, ban, AccountType.DISCORD);
+			}
 		} catch (RequestFailedException e) {
 			if (banAPI.getExceptionHandler() != null)
 				banAPI.getExceptionHandler().accept(e);
 		} finally {
 			schedule();
 		}
+	}
+
+	private void runChangeListeners(User user, Ban ban, AccountType type) {
+		for(BanChangeListener listener : this.changeListeners)
+			try {
+				listener.onBanUpdate(user, ban, type);
+			}catch(Throwable t) {
+				if(this.exceptionHandler != null)
+					exceptionHandler.accept(t);
+			}
 	}
 
 	public void registerListener(BanListener listener) {
