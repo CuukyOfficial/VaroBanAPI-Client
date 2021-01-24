@@ -8,13 +8,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-import de.varoplugin.banapi.request.ActiveBansRequest;
-import de.varoplugin.banapi.request.ActiveDiscordBansRequest;
-import de.varoplugin.banapi.request.ActiveMinecraftBansRequest;
+import de.varoplugin.banapi.request.LatestBansRequest;
+import de.varoplugin.banapi.request.LatestDiscordBansRequest;
+import de.varoplugin.banapi.request.LatestMinecraftBansRequest;
 import de.varoplugin.banapi.request.BansRequest;
 import de.varoplugin.banapi.request.RequestFailedException;
 
-public class ActiveBansHandler {
+public class LatestBansHandler {
 
 	private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
@@ -27,7 +27,7 @@ public class ActiveBansHandler {
 	private Timestamp timestamp;
 	private UsersDataWrapper currentData;
 
-	public ActiveBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler, int refreshInterval, Timestamp timestamp) {
+	public LatestBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler, int refreshInterval, Timestamp timestamp) {
 		this.banAPI = banAPI;
 		this.mode = mode;
 		this.exceptionHandler = exceptionHandler;
@@ -35,7 +35,7 @@ public class ActiveBansHandler {
 		this.timestamp = timestamp;
 	}
 
-	public ActiveBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler) {
+	public LatestBansHandler(BanApi banAPI, Mode mode, Consumer<Throwable> exceptionHandler) {
 		this(banAPI, mode, exceptionHandler, 5 * 60, null);
 	}
 
@@ -100,9 +100,9 @@ public class ActiveBansHandler {
 
 	public static enum Mode {
 
-		ALL(ActiveBansRequest::new),
-		DISCORD_ONLY(ActiveDiscordBansRequest::new),
-		MINECRAFT_ONLY(ActiveMinecraftBansRequest::new);
+		ALL(LatestBansRequest::new),
+		DISCORD_ONLY(LatestDiscordBansRequest::new),
+		MINECRAFT_ONLY(LatestMinecraftBansRequest::new);
 
 		private BiFunction<BanApi, Timestamp, BansRequest> request;
 
