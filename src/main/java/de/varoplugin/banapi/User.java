@@ -62,7 +62,7 @@ public class User {
 	}
 	
 	public Ban getLatestMinecraftBan() {
-		return hasActiveMinecraftBan() ? this.minecraftBans[0] : null;
+		return this.minecraftBans != null ? this.minecraftBans[0] : null;
 	}
 	
 	public Ban[] getDiscordBans() {
@@ -74,7 +74,7 @@ public class User {
 	}
 	
 	public Ban getLatestDiscordBan() {
-		return hasActiveDiscordBan() ? this.discordBans[0] : null;
+		return this.discordBans != null ? this.discordBans[0] : null;
 	}
 
 	public String[] getMinecraftUuids() {
