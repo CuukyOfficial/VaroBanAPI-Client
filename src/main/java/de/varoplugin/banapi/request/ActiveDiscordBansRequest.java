@@ -6,14 +6,14 @@ import de.varoplugin.banapi.BanApi;
 public class ActiveDiscordBansRequest extends BansRequest {
 	
 	public ActiveDiscordBansRequest(BanApi api, Timestamp timestamp) {
-		super(api, "bans/active", timestamp);
+		super(api, "dc/latest", timestamp);
 	}
 	
 	public ActiveDiscordBansRequest(BanApi api, long timestamp) {
-		super(api, "bans/active", timestamp);
+		super(api, "dc/latest", timestamp);
 	}
 	
 	public ActiveDiscordBansRequest(BanApi api) {
-		super(api, "dc/active");
+		super(api, "dc/latest");
 	}
 }

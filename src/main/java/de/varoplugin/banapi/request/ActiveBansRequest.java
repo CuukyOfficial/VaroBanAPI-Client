@@ -6,14 +6,14 @@ import de.varoplugin.banapi.BanApi;
 public class ActiveBansRequest extends BansRequest {
 	
 	public ActiveBansRequest(BanApi api, Timestamp timestamp) {
-		super(api, "bans/active", timestamp);
+		super(api, "bans/latest", timestamp);
 	}
 	
 	public ActiveBansRequest(BanApi api, long timestamp) {
-		super(api, "bans/active", timestamp);
+		super(api, "bans/latest", timestamp);
 	}
 	
 	public ActiveBansRequest(BanApi api) {
-		super(api, "bans/active");
+		super(api, "bans/latest");
 	}
 }
