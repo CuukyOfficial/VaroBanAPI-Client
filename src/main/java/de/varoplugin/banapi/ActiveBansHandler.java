@@ -58,13 +58,13 @@ public class ActiveBansHandler {
 			for(BanChangeListener listener : this.changeListeners)
 				try {
 					for(User user : data.getRaw().getUsers()) {
-						if(user.isBansChanged()) {
-							Ban ban;
+						Ban ban;
+						if(user.isMinecraftBansChanged())
 							if((ban = user.getLatestMinecraftBan()) != null)
 								listener.onBanUpdate(user, ban, AccountType.MINECRAFT);
+						if(user.isDiscordBansChanged())
 							if((ban = user.getLatestDiscordBan()) != null)
 								listener.onBanUpdate(user, ban, AccountType.DISCORD);
-						}
 					}
 
 				}catch(Throwable t) {
