@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class AccountLink {
 
+	@SerializedName("name")
+	private String name;
+	
 	@SerializedName("type")
 	private int oldType;
 	
@@ -16,8 +19,9 @@ public class AccountLink {
 	@SerializedName("newId")
 	private String newId;
 
-	public AccountLink(AccountType oldType, AccountType newType, String oldId, String newId) {
+	public AccountLink(String name, AccountType oldType, AccountType newType, String oldId, String newId) {
 		super();
+		this.name = name;
 		this.oldType = oldType.getId();
 		this.newType = newType.getId();
 		this.oldId = oldId;
