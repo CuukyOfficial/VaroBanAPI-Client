@@ -1,5 +1,5 @@
 package de.varoplugin.banapi;
 
-abstract interface BanListener {
+interface BanListener {
 
 }
