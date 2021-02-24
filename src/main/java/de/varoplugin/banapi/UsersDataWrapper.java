@@ -7,8 +7,8 @@ import java.util.UUID;
 public class UsersDataWrapper {
 
 	private UserArray raw;
-	private Map<UUID, User> minecraftAccounts;
-	private Map<Long, User> discordAccounts;
+	private Map<UUID, BanUser> minecraftAccounts;
+	private Map<Long, BanUser> discordAccounts;
 
 	public UsersDataWrapper() {}
 
@@ -21,7 +21,7 @@ public class UsersDataWrapper {
 	}
 
 	protected void initData(UserArray array) {
-		for (User user : array.getUsers()) {
+		for (BanUser user : array.getUsers()) {
 			if (user.getMinecraftUuids() != null)
 				for (String uuidString : user.getMinecraftUuids()) {
 					UUID uuid = UUID.fromString(uuidString);
@@ -39,11 +39,11 @@ public class UsersDataWrapper {
 		return raw;
 	}
 
-	public User getUser(UUID uuid) {
+	public BanUser getUser(UUID uuid) {
 		return this.minecraftAccounts.get(uuid);
 	}
 
-	public User getUser(Long id) {
+	public BanUser getUser(Long id) {
 		return this.discordAccounts.get(id);
 	}
 }

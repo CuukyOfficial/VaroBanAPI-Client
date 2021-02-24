@@ -2,7 +2,7 @@ package de.varoplugin.banapi;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class BanUser {
 	
 	@SerializedName("userID")
 	private long userid;
@@ -31,7 +31,7 @@ public class User {
 	@SerializedName("discordAccounts")
 	private long[] discordIds;
 	
-	public User() {}
+	public BanUser() {}
 
 	public long getUserid() {
 		return userid;

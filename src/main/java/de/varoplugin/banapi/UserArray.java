@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName;
 public class UserArray {
 
 	@SerializedName("users")
-	private User[] users;
+	private BanUser[] users;
 	
 	@SerializedName("timestamp")
 	private long timestamp;
 	
 	public UserArray() {}
 	
-	public User[] getUsers() {
+	public BanUser[] getUsers() {
 		return users;
 	}
 	

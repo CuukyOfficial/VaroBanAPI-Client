@@ -60,7 +60,7 @@ public class LatestBansHandler {
 						exceptionHandler.accept(t);
 				}
 
-			for(User user : data.getRaw().getUsers()) {
+			for(BanUser user : data.getRaw().getUsers()) {
 				Ban ban;
 				if(user.isMinecraftBansChanged())
 					if((ban = user.getLatestMinecraftBan()) != null)
@@ -77,7 +77,7 @@ public class LatestBansHandler {
 		}
 	}
 
-	private void runChangeListeners(User user, Ban ban, AccountType type) {
+	private void runChangeListeners(BanUser user, Ban ban, AccountType type) {
 		for(BanChangeListener listener : this.changeListeners)
 			try {
 				listener.onBanUpdate(user, ban, type);
