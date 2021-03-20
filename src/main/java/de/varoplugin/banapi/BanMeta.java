@@ -11,9 +11,9 @@ public class BanMeta {
 	private String note;
 	
 	@SerializedName("proof")
-	private String proof;
+	private String[] proof;
 	
-	public BanMeta(long id, String note, String proof) {
+	public BanMeta(long id, String note, String... proof) {
 		super();
 		this.id = id;
 		this.note = note;
@@ -28,7 +28,7 @@ public class BanMeta {
 		return note;
 	}
 	
-	public String getProof() {
+	public String[] getProof() {
 		return proof;
 	}
 }
