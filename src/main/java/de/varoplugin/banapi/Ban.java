@@ -31,7 +31,7 @@ public class Ban {
 	@SerializedName("notes")
 	private String notes;
 	
-	@SerializedName("proofs")
+	@SerializedName("proof")
 	private Proof[] proofs;
 	
 	public Ban() {}
