@@ -39,6 +39,17 @@ public class UsersDataWrapper {
 		return raw;
 	}
 
+	public BanUser getUser(AccountType type, String id) {
+		switch (type) {
+		case MINECRAFT:
+			return this.getUser(UUID.fromString(id));
+		case DISCORD:
+			return this.getUser(Long.parseLong(id));
+		default:
+			throw new Error();
+		}
+	}
+
 	public BanUser getUser(UUID uuid) {
 		return this.minecraftAccounts.get(uuid);
 	}
