@@ -22,4 +22,20 @@ public class PlayerBan {
 		this.name = name;
 		this.ban = ban;
 	}
+
+	public int getType() {
+		return type;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Ban getBan() {
+		return ban;
+	}
 }

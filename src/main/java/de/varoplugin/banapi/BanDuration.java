@@ -14,43 +14,43 @@ public enum BanDuration {
 	WEEKS("w", "week", 7L * 24L * 60L * 60L * 1000L),
 	MONTHS("m", "month", 30L * 24L * 60L * 60L * 1000L),
 	YEARS("y", "year", 365L * 24L * 60L * 60L * 1000L);
-	
+
 	private final String identifier;
 	private final String nameSingular;
 	private final String namePlural;
 	private final long millis;
-	
+
 	private BanDuration(String identifier, String name, long millis) {
 		this.identifier = identifier;
 		this.nameSingular = name;
 		this.namePlural = name + "s";
 		this.millis = millis;
 	}
-	
+
 	public String getIdentifier() {
 		return identifier;
 	}
-	
+
 	public String getNameSingular() {
 		return nameSingular;
 	}
-	
+
 	public String getNamePlural() {
 		return namePlural;
 	}
-	
+
 	public long getMillis() {
 		return millis;
 	}
-	
+
 	private static final BanDuration[] sortedDurations;
-	
+
 	static {
 		List<BanDuration> list = Arrays.asList(BanDuration.values());
 		list.sort((BanDuration d1, BanDuration d2) -> d1.millis > d2.millis ? -1 : 1);
 		sortedDurations = list.toArray(new BanDuration[0]);
 	}
-	
+
 	public static String getDisplaynameFromMillis(long millis) {
 		for(BanDuration duration : sortedDurations)
 			if(millis % duration.millis == 0) {
@@ -59,5 +59,16 @@ public enum BanDuration {
 				return String.format("%s %s", converted, name);
 			}
 		throw new Error();
+	}
+
+	public static long parse(String input) {
+		for(BanDuration time : BanDuration.values())
+			if(input.endsWith(time.getIdentifier()))
+				try {
+					return Long.parseLong(input.substring(0, input.length() - time.getIdentifier().length())) * time.millis;
+				}catch(NumberFormatException e) {
+					return -1L;
+				}
+		return -1L;
 	}
 }
