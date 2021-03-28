@@ -1,8 +1,16 @@
 package de.varoplugin.banapi;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public enum AccountType {
 
-	MINECRAFT(0), DISCORD(1);
+	@Expose()
+	@SerializedName("mc")
+	MINECRAFT(0),
+	@Expose()
+	@SerializedName("dc")
+	DISCORD(1);
 	
 	private int id;
 	

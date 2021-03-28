@@ -1,18 +1,23 @@
 package de.varoplugin.banapi;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PlayerBan {
 
+	@Expose
 	@SerializedName("type")
 	private int type;
 
+	@Expose
 	@SerializedName("id")
 	private String id;
 
+	@Expose
 	@SerializedName("name")
 	private String name;
 
+	@Expose
 	@SerializedName("ban")
 	private Ban ban;
 
