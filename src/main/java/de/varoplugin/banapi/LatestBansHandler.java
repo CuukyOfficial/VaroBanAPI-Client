@@ -16,8 +16,7 @@ import de.varoplugin.banapi.request.RequestFailedException;
 
 public class LatestBansHandler {
 
-	private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
-
+	private final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 	private final BanApi banAPI;
 	private final Mode mode;
 	private final Consumer<Throwable> exceptionHandler;
@@ -113,5 +112,9 @@ public class LatestBansHandler {
 		public BansRequest getRequest(BanApi api, Timestamp timestamp) {
 			return this.request.apply(api, timestamp);
 		}
+	}
+
+	public void cancel() {
+		this.EXECUTOR.shutdownNow();
 	}
 }
