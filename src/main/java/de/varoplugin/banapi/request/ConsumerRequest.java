@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import de.varoplugin.banapi.BanApi;
 
-abstract class ConsumerRequest<T> extends AbstractRequest {
+public abstract class ConsumerRequest<T> extends AbstractRequest {
 
 	private Class<T> responseClass;
 	

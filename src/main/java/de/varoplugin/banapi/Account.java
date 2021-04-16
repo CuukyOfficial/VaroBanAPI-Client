@@ -6,7 +6,7 @@ public class Account {
 
 	@SerializedName("type")
 	private int type;
-	
+
 	@SerializedName("id")
 	private String id;
 
@@ -14,5 +14,13 @@ public class Account {
 		super();
 		this.type = type.getId();
 		this.id = id;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

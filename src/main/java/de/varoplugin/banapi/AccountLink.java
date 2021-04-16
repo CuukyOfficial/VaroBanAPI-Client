@@ -4,27 +4,31 @@ import com.google.gson.annotations.SerializedName;
 
 public class AccountLink {
 
-	@SerializedName("name")
-	private String name;
-	
 	@SerializedName("type")
 	private int oldType;
-	
-	@SerializedName("newType")
-	private int newType;
-	
+
 	@SerializedName("id")
 	private String oldId;
-	
-	@SerializedName("newId")
-	private String newId;
 
+	@SerializedName("name")
+	private String name;
+
+	@SerializedName("from")
+	private Account[] newAccounts;
+
+	@Deprecated
 	public AccountLink(String name, AccountType oldType, AccountType newType, String oldId, String newId) {
-		super();
-		this.name = name;
-		this.oldType = oldType.getId();
-		this.newType = newType.getId();
 		this.oldId = oldId;
-		this.newId = newId;
+		this.oldType = oldType.getId();
+		this.name = name;
+
+		this.newAccounts = new Account[] {new Account(newType, newId)};
+	}
+
+	public AccountLink(Account oldAccount, String name, Account... newAccounts) {
+		this.oldId = oldAccount.getId();
+		this.oldType = oldAccount.getType();
+		this.name = name;	
+		this.newAccounts = newAccounts;	
 	}
 }

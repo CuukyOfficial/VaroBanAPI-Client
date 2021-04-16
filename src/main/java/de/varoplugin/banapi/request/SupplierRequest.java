@@ -2,7 +2,7 @@ package de.varoplugin.banapi.request;
 
 import de.varoplugin.banapi.BanApi;
 
-abstract class SupplierRequest extends AbstractRequest {
+public abstract class SupplierRequest extends AbstractRequest {
 	
 	private String payload;
 	
