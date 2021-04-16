@@ -7,24 +7,30 @@ public enum BanDuration {
 
 	MILLISECONDS("ms", "millisecond", 1L),
 	SECONDS("s", "second", 1000L),
-	MINUTES("min", "minute", 60L * 1000L),
-	HOURS("h", "hour", 60L * 60L * 1000L),
-
-	DAYS("d", "day", 24L * 60L * 60L * 1000L),
-	WEEKS("w", "week", 7L * 24L * 60L * 60L * 1000L),
-	MONTHS("m", "month", 30L * 24L * 60L * 60L * 1000L),
-	YEARS("y", "year", 365L * 24L * 60L * 60L * 1000L);
+	MINUTES("min", "minute", SECONDS.millis * 60L),
+	HOURS("h", "hour", MINUTES.millis * 60L),
+	DAYS("d", "day", HOURS.millis * 24L),
+	WEEKS("w", "week", DAYS.millis * 7L),
+	MONTHS("m", "month", DAYS.millis * 30L),
+	YEARS("y", "year", DAYS.millis * 365L),
+	DECADES("de", "decade", YEARS.millis * 10L),
+	CENTURIES("ce", "century", "centuries", YEARS.millis * 100L),
+	MILLENNIA("mil", "millennium", "millenia", YEARS.millis * 1000L);
 
 	private final String identifier;
 	private final String nameSingular;
 	private final String namePlural;
 	private final long millis;
 
-	private BanDuration(String identifier, String name, long millis) {
+	private BanDuration(String identifier, String nameSingular, String namePlural, long millis) {
 		this.identifier = identifier;
-		this.nameSingular = name;
-		this.namePlural = name + "s";
+		this.nameSingular = nameSingular;
+		this.namePlural = namePlural;
 		this.millis = millis;
+	}
+
+	private BanDuration(String identifier, String name, long millis) {
+		this(identifier, name, name + "s", millis);
 	}
 
 	public String getIdentifier() {
@@ -41,6 +47,10 @@ public enum BanDuration {
 
 	public long getMillis() {
 		return millis;
+	}
+
+	public long toUnit(long input) {
+		return input / this.millis;
 	}
 
 	private static final BanDuration[] sortedDurations;
