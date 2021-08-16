@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -16,13 +17,14 @@ import de.varoplugin.banapi.request.RequestFailedException;
 
 public class LatestBansHandler {
 
-	private final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor();
+	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	private final BanApi banAPI;
 	private final Mode mode;
 	private final Consumer<Throwable> exceptionHandler;
 	private final List<BanChangeListener> changeListeners = new CopyOnWriteArrayList<>();
 	private final List<BanDataListener> dataListeners = new CopyOnWriteArrayList<>();
 	private final int refreshInterval;
+	private ScheduledFuture<?> future;
 	private Timestamp timestamp;
 	private UsersDataWrapper currentData;
 
@@ -39,11 +41,19 @@ public class LatestBansHandler {
 	}
 
 	public void start() {
-		EXECUTOR.execute(this::refreshData);
+		executor.execute(this::refreshData);
 	}
 
 	private void schedule() {
-		EXECUTOR.schedule(this::refreshData, this.refreshInterval, TimeUnit.SECONDS);
+		this.future = executor.schedule(this::refreshData, this.refreshInterval, TimeUnit.SECONDS);
+	}
+	
+	public void scheduleNow() {
+		executor.execute(() -> {
+			if(this.future != null)
+				this.future.cancel(false);
+			this.refreshData();
+		});
 	}
 
 	private void refreshData() {
@@ -115,6 +125,6 @@ public class LatestBansHandler {
 	}
 
 	public void cancel() {
-		this.EXECUTOR.shutdownNow();
+		this.executor.shutdownNow();
 	}
 }
